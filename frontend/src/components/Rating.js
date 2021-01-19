@@ -73,7 +73,6 @@ const Rating = ({ value, text, color }) => {
 Rating.defaultProps = {
   color: "#f8e825",
 };
-
 // This is type check our props
 Rating.propTypes = {
   value: PropTypes.number.isRequired,
