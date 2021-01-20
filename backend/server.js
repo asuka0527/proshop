@@ -2,7 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import products from "./data/products.js";
+// import products from "./data/products.js";
 import colors from "colors";
 
 // // common JS module way of importing files/libraries
@@ -10,6 +10,8 @@ import colors from "colors";
 // // Environment variables
 // const dotenv = require("dotenv");
 // const products = require("./data/products");
+
+import productRoutes from "./routes/productRoutes.js";
 
 // Environment variables
 dotenv.config();
@@ -24,17 +26,8 @@ app.get("/", (req, res) => {
   res.send("API IS RUNNING...");
 });
 
-// create route for ALL products
-app.get("/api/products", (req, res) => {
-  // convert it JSON
-  res.json(products);
-});
-
-// create a route for single product
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((product) => product._id === req.params.id);
-  res.json(product);
-});
+// [Fetching productcs from DATABASE] 2. link app to productRouter
+app.use("/api/products", productRoutes);
 
 const PORT = process.env.PORT || 5000;
 
