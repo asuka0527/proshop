@@ -9,7 +9,7 @@ function Loader() {
       style={{
         width: "100px",
         height: "100px",
-        margin: "auto",
+        margin: "0 auto",
         display: "block",
       }}
     >

@@ -15,7 +15,7 @@ router.get(
   asyncHandler(async (req, res) => {
     // this mongoose method will return all products
     const products = await Product.find({});
-
+    // throw new Error("some error");
     // convert it JSON
     res.json(products);
   })
