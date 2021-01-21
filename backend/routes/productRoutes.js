@@ -20,7 +20,7 @@ router.get(
     res.json(products);
   })
 );
-
+2;
 // @description Fetch single products
 // @route GET/api/product/:id
 // @access Public (token)
@@ -32,7 +32,8 @@ router.get(
     if (product) {
       res.json(product);
     } else {
-      res.status(404).json({ message: "Product not found" });
+      res.status(404);
+      throw new Error("Product not found");
     }
   })
 );
