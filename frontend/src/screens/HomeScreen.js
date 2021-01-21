@@ -1,37 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+
 // import products from "../products";
-import axios from "axios";
+import { listProducts } from "../actions/productActions";
 
 const HomeScreen = () => {
-  // [Fetching data from backend in a component] 1. useHooks to generate state in function component
-  const [products, setProducts] = useState([]);
+  // [HOOKS] to use useDispatch instead of HOC connect + mapDisptachToProps
+  const dispatch = useDispatch();
 
-  // [Fetching data from backend in a component] 2. useEffect hook + axios to get fetch data
+  // [HOOKS] to use useSelector to select the part of the state you would want to manipulate **use same name with reducer
+  const productList = useSelector((state) => state.productList);
+
+  // destructure from the
+  const { loading, error, products } = productList;
   useEffect(() => {
-    const fetchProducts = async () => {
-      // instead of saving it to a variable destructure the data directly here
-      const { data } = await axios.get("/api/products");
-
-      setProducts(data);
-    };
-
-    fetchProducts();
-  }, []);
-
-  // [Fetching data from backend in a component] 3. will error bec it is trying to fetch it from localhost 3000 instead of our backend local host5000 - ADD PROXY in json file @frontend   "proxy": "http://127.0.0.1:5000",
+    // dispatch the action
+    dispatch(listProducts());
+  }, [dispatch]);
 
   return (
     <>
       <h1>Latest Products</h1>
-      <Row>
-        {products.map((product) => (
-          <Col key={product._id} sm={12} md={6} ld={4} xl={3}>
-            <Product product={product} />
-          </Col>
-        ))}
-      </Row>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <Row>
+          {products.map((product) => (
+            <Col key={product._id} sm={12} md={6} ld={4} xl={3}>
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </>
   );
 };
