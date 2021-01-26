@@ -13,6 +13,8 @@ import colors from "colors";
 
 import productRoutes from "./routes/productRoutes.js";
 
+import userRoutes from "./routes/userRoutes.js";
+
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 // Environment variables
 dotenv.config();
@@ -23,6 +25,9 @@ connectDB();
 // Initialize express
 const app = express();
 
+// [userAuthentication] will allow us to accept json data in the body
+app.use(express.json());
+
 // Home Route
 app.get("/", (req, res) => {
   res.send("API IS RUNNING...");
@@ -30,6 +35,9 @@ app.get("/", (req, res) => {
 
 // [Fetching productcs from DATABASE] 2. link app to productRouter
 app.use("/api/products", productRoutes);
+
+// [userAuthentication] -2). mount userRoutes here then setup userRoutes next
+app.use("/api/users", userRoutes);
 
 // FALLBACK for 404 error - when user tries to access a route that does not exist
 app.use(notFound);

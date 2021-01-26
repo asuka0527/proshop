@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrpyt from "bcryptjs";
 
 const userSchema = mongoose.Schema(
   {
@@ -23,6 +24,12 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// [userAuthentication] -4). method that will check wether the plain password entered in the browser matches the encypted one
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrpyt.compare(enteredPassword, this.password);
+};
 
 const User = mongoose.model("User", userSchema);
 
