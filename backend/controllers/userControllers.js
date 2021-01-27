@@ -3,7 +3,6 @@ import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 
 // [userAuthentication] -1). set up request here
-
 // @description     Auth user & get token
 // @route           POST/api/users/login
 // @access          Public (some routes will need a token for example when users needs to be login so it will need a login token)
@@ -33,6 +32,7 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+// [ User Registration ]
 // @description     Register users
 // @route           POST/api/users
 // @access          Public
@@ -92,4 +92,37 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile, registerUser };
+// [ Update User ]
+// @description     Update user profile
+// @route           PUT/api/users/profile (PUT === update)
+// @access          Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  // find the user by Id
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      // automatically incrypted bec of the middleware in the User Model
+      user.password = req.body.password;
+    }
+
+    // save updated user info
+    const updatedUser = await user.save();
+
+    // respond with json the UPDATE user info
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+export { authUser, getUserProfile, registerUser, updateUserProfile };
