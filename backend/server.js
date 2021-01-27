@@ -13,7 +13,7 @@ import colors from "colors";
 
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import orderRoutes from "./routes/orderRoutes";
+import orderRoutes from "./routes/orderRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 // Environment variables
@@ -38,11 +38,10 @@ app.use("/api/products", productRoutes);
 // [userAuthentication] -2). mount userRoutes here then setup userRoutes next
 app.use("/api/users", userRoutes);
 // [ addOrderRoute ]
-app.user("/api/orders", orderRoutes);
+app.use("/api/orders", orderRoutes);
 
 // FALLBACK for 404 error - when user tries to access a route that does not exist
 app.use(notFound);
-
 // ERROR MIDDLEWARE
 app.use(errorHandler);
 

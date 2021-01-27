@@ -5,8 +5,6 @@ import Order from "../models/orderModel.js";
 // @route POST/api/orders
 // @access Private
 const addOrderItems = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
-
   // the data we want to get from the body
   const {
     orderItems,
@@ -35,8 +33,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
     // save to database
 
-    const createOrder = await order.save();
-    res.status(201).json(createOrder);
+    const createdOrder = await order.save();
+    res.status(201).json(createdOrder);
   }
 });
 
