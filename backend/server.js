@@ -12,8 +12,8 @@ import colors from "colors";
 // const products = require("./data/products");
 
 import productRoutes from "./routes/productRoutes.js";
-
 import userRoutes from "./routes/userRoutes.js";
+import orderRoutes from "./routes/orderRoutes";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 // Environment variables
@@ -35,9 +35,10 @@ app.get("/", (req, res) => {
 
 // [Fetching productcs from DATABASE] 2. link app to productRouter
 app.use("/api/products", productRoutes);
-
 // [userAuthentication] -2). mount userRoutes here then setup userRoutes next
 app.use("/api/users", userRoutes);
+// [ addOrderRoute ]
+app.user("/api/orders", orderRoutes);
 
 // FALLBACK for 404 error - when user tries to access a route that does not exist
 app.use(notFound);
