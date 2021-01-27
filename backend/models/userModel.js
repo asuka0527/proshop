@@ -34,6 +34,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 // [ User Registration ] - before we save we want to encrypt password
 
 userSchema.pre("save", async function (next) {
+  // mongoose method that will check if password is modified
   if (!this.isModified("password")) {
     next();
   }
