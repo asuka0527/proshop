@@ -40,6 +40,11 @@ app.use("/api/users", userRoutes);
 // [ addOrderRoute ]
 app.use("/api/orders", orderRoutes);
 
+//[PAYPAL] - config route - when we are ready to make our payment we will hit this route the fetch the client ID
+app.get("/api/config/paypal", (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+);
+
 // FALLBACK for 404 error - when user tries to access a route that does not exist
 app.use(notFound);
 // ERROR MIDDLEWARE
