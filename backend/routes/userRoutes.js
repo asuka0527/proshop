@@ -1,17 +1,20 @@
 import express from "express";
-import asyncHandler from "express-async-handler";
+// [Fetching users from DATABASE] -3).  setup user router
+const router = express.Router();
 
 import {
   authUser,
   getUserProfile,
   registerUser,
   updateUserProfile,
+  getUsers,
 } from "../controllers/userControllers.js";
 
 import { protect } from "../middleware/authMiddleware.js";
+import { admin } from "../middleware/authMiddleware.js";
 
-// [Fetching users from DATABASE] -3).  setup user router
-const router = express.Router();
+// [ User Registration ] -> .get -> // [ Get all users - ADMIN]
+router.route("/").post(registerUser).get(protect, admin, getUsers);
 
 router.post("/login", authUser);
 
@@ -21,8 +24,5 @@ router
   .route("/profile")
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
-
-// [ User Registration ]
-router.route("/").post(registerUser);
 
 export default router;
