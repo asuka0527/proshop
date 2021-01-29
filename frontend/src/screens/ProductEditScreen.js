@@ -57,7 +57,7 @@ const ProductEditScreen = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // the values from the form field will be dispatched to the reducer and then backend
+    // these values from the form field will be dispatched to the reducer and then backend
     dispatch(
       updateProduct({
         _id: productId,

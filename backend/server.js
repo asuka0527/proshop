@@ -1,3 +1,4 @@
+import path from "path";
 // ES MODULES
 import express from "express";
 import dotenv from "dotenv";
@@ -14,6 +15,7 @@ import colors from "colors";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 // Environment variables
@@ -39,11 +41,18 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 // [ addOrderRoute ]
 app.use("/api/orders", orderRoutes);
+// [ uploadRoutes ]
+app.use("/api/uploads", uploadRoutes);
 
 //[PAYPAL] - config route - when we are ready to make our payment we will hit this route the fetch the client ID
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+// make the uploads static so it will be accessible to the browser
+// mimick the ES module
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 // FALLBACK for 404 error - when user tries to access a route that does not exist
 app.use(notFound);
