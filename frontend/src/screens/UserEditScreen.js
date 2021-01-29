@@ -95,7 +95,7 @@ const UserEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="isadminb">
+            <Form.Group controlId="isadmin">
               <Form.Check
                 type="checkbox"
                 label="Is Admin"
