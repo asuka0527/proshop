@@ -42,7 +42,7 @@ app.use("/api/users", userRoutes);
 // [ addOrderRoute ]
 app.use("/api/orders", orderRoutes);
 // [ uploadRoutes ]
-app.use("/api/uploads", uploadRoutes);
+app.use("/api/upload", uploadRoutes);
 
 //[PAYPAL] - config route - when we are ready to make our payment we will hit this route the fetch the client ID
 app.get("/api/config/paypal", (req, res) =>
