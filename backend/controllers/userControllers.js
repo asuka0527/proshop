@@ -92,7 +92,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// [ Update User ]
+// [ Update User - by User ]
 // @description     Update user profile
 // @route           PUT/api/users/profile (PUT === update)
 // @access          Private
@@ -154,6 +154,51 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @description     Get user by ID
+// @route           GET/api/users/:id
+// @access          Private/Admin
+const getUserById = asyncHandler(async (req, res) => {
+  // get user from db , select it and dont get password
+  const user = await User.findById(req.params.id).select("-password");
+
+  if (user) {
+    // respond(send) user object to fronted
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+// [ Update User - by ADMIN ]
+// @description     Update user
+// @route           PUT/api/users/:id (PUT === update)
+// @access          Private/Admin
+const updateUser = asyncHandler(async (req, res) => {
+  // find the user by Id from the URL
+  const user = await User.findById(req.params.id).select("-password");
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = req.body.isAdmin === true ? true : false;
+
+    // save updated user info
+    const updatedUser = await user.save();
+
+    // respond with json the UPDATE user info
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
 export {
   authUser,
   getUserProfile,
@@ -161,4 +206,6 @@ export {
   updateUserProfile,
   getUsers,
   deleteUser,
+  getUserById,
+  updateUser,
 };

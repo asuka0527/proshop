@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, userSelector, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { logout } from "../actions/userActions";
