@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 // import products from "./data/products.js";
 import colors from "colors";
-
+import morgan from "morgan";
 // // common JS module way of importing files/libraries
 // const express = require("express");
 // // Environment variables
@@ -26,6 +26,11 @@ connectDB();
 
 // Initialize express
 const app = express();
+
+// Morgan to log in the console when some hits our server
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // [userAuthentication] will allow us to accept json data in the body
 app.use(express.json());
