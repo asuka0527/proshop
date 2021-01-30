@@ -5,6 +5,7 @@ import Product from "../models/productModel.js";
 // @route GET/api/products
 // @access Public (some routes will need a token for example when users needs to be login so it will need a login token)
 const getProducts = asyncHandler(async (req, res) => {
+  // # of products we want to display per page
   const pageSize = 10;
   // the page in the query
   const page = Number(req.query.pageNumber) || 1;
@@ -20,7 +21,7 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
-  // count is a method we can use to count something the db models
+  // countDocument is a method we can use to count # of something the db models
   const count = await Product.countDocuments({ ...keyword });
 
   // ...keyword its gonne be keyword or empty {}
@@ -171,6 +172,16 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @description Get top rated products
+// @route GET /api/products/top
+// @access Public
+const getTopProducts = asyncHandler(async (req, res) => {
+  // sort is by ascending order and get top 3 products
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+  res.json(products);
+});
+
 export {
   getProducts,
   getProductById,
@@ -178,4 +189,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
+  getTopProducts,
 };

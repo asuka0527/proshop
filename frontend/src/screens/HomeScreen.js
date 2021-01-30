@@ -1,33 +1,38 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Paginate from "../components/Paginate";
-
-// import products from "../products";
+import ProductsCarousel from "../components/ProductsCarousel";
+import Meta from "../components/Meta";
 import { listProducts } from "../actions/productActions";
+import { Link } from "react-router-dom";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
   const pageNumber = match.params.pageNumber || 1;
 
-  // [HOOKS] to use useDispatch instead of HOC connect + mapDisptachToProps
-  const dispatch = useDispatch();
-
-  // [HOOKS] to use useSelector to select the part of the state you would want to manipulate **use same name with reducer
   const productList = useSelector((state) => state.productList);
-
-  // destructure from the
   const { loading, error, products, page, pages } = productList;
+
+  const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch the action
     dispatch(listProducts(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
+      <Meta />
+      {!keyword ? (
+        <ProductsCarousel />
+      ) : (
+        <Link className="btn btn-light" to={"/"}>
+          Go Back
+        </Link>
+      )}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader />
