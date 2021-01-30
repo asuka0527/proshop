@@ -5,6 +5,10 @@ import Product from "../models/productModel.js";
 // @route GET/api/products
 // @access Public (some routes will need a token for example when users needs to be login so it will need a login token)
 const getProducts = asyncHandler(async (req, res) => {
+  const pageSize = 10;
+  // the page in the query
+  const page = Number(req.query.pageNumber) || 1;
+
   // this is who to get a query string
   // $regex - is to start search with only the key inputed does not need to perfectly match the name
   const keyword = req.query.keyword
@@ -16,11 +20,16 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
+  // count is a method we can use to count something the db models
+  const count = await Product.countDocuments({ ...keyword });
+
   // ...keyword its gonne be keyword or empty {}
-  const products = await Product.find({ ...keyword });
-  // throw new Error("some error");
-  // convert it JSON
-  res.json(products);
+  const products = await Product.find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  // send to the frontend
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @description Fetch single products

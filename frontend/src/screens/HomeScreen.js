@@ -4,12 +4,14 @@ import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import Paginate from "../components/Paginate";
 
 // import products from "../products";
 import { listProducts } from "../actions/productActions";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
+  const pageNumber = match.params.pageNumber || 1;
 
   // [HOOKS] to use useDispatch instead of HOC connect + mapDisptachToProps
   const dispatch = useDispatch();
@@ -18,11 +20,11 @@ const HomeScreen = ({ match }) => {
   const productList = useSelector((state) => state.productList);
 
   // destructure from the
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
   useEffect(() => {
     // dispatch the action
-    dispatch(listProducts(keyword));
-  }, [dispatch, keyword]);
+    dispatch(listProducts(keyword, pageNumber));
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
@@ -32,13 +34,20 @@ const HomeScreen = ({ match }) => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <Row>
-          {products.map((product) => (
-            <Col key={product._id} sm={12} md={6} ld={4} xl={3}>
-              <Product product={product} />
-            </Col>
-          ))}
-        </Row>
+        <>
+          <Row>
+            {products.map((product) => (
+              <Col key={product._id} sm={12} md={6} ld={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ""}
+          />
+        </>
       )}
     </>
   );
