@@ -8,7 +8,9 @@ import Loader from "../components/Loader";
 // import products from "../products";
 import { listProducts } from "../actions/productActions";
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+  const keyword = match.params.keyword;
+
   // [HOOKS] to use useDispatch instead of HOC connect + mapDisptachToProps
   const dispatch = useDispatch();
 
@@ -19,8 +21,8 @@ const HomeScreen = () => {
   const { loading, error, products } = productList;
   useEffect(() => {
     // dispatch the action
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>

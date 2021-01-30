@@ -5,7 +5,19 @@ import Product from "../models/productModel.js";
 // @route GET/api/products
 // @access Public (some routes will need a token for example when users needs to be login so it will need a login token)
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
+  // this is who to get a query string
+  // $regex - is to start search with only the key inputed does not need to perfectly match the name
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  // ...keyword its gonne be keyword or empty {}
+  const products = await Product.find({ ...keyword });
   // throw new Error("some error");
   // convert it JSON
   res.json(products);
