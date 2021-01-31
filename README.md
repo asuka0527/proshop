@@ -74,3 +74,19 @@ npm run data:import
 ```bash
 npm run data:destroy
 ```
+
+## Login 
+```bash
+admin@example.com (Admin)
+123456
+
+test@example.com (Customer)
+12345
+
+era@example.com (Customer)
+123456
+
+asuka@example.com (Customer)
+123456
+```
+
