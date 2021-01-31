@@ -19,11 +19,8 @@ const UserEditScreen = ({ match, history }) => {
   const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const dispatch = useDispatch();
-
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
-
   const userUpdate = useSelector((state) => state.userUpdate);
   const {
     loading: loadingUpdate,
@@ -31,20 +28,17 @@ const UserEditScreen = ({ match, history }) => {
     success: successUpdate,
   } = userUpdate;
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    // we want to check first of the success of the update
     if (successUpdate) {
       dispatch({
         type: USER_UPDATE_RESET,
       });
       history.push("/admin/userlist");
     } else {
-      // if the user is not here or does not match the URL get the users details with the URL
       if (!user.name || user._id !== userId) {
         dispatch(getUserDetails(userId));
-      }
-      // if the user we want is already here change it to the details inputed in the body
-      else {
+      } else {
         setName(user.name);
         setEmail(user.email);
         setIsAdmin(user.isAdmin);

@@ -28,7 +28,6 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: ORDER_CREATE_REQUEST,
     });
 
-    // because we need the token from the user to PUT the request we have to get in from the state
     const {
       userLogin: { userInfo },
     } = getState();
@@ -40,7 +39,6 @@ export const createOrder = (order) => async (dispatch, getState) => {
       },
     };
 
-    // send the order to the backend
     const { data } = await axios.post(`/api/orders`, order, config);
 
     dispatch({
@@ -63,8 +61,6 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     dispatch({
       type: ORDER_DETAILS_REQUEST,
     });
-
-    // because we need the token from the user to PUT the request we have to get in from the state
     const {
       userLogin: { userInfo },
     } = getState();
@@ -74,8 +70,6 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-
-    // send the order to the backend
     const { data } = await axios.get(`/api/orders/${id}`, config);
 
     dispatch({
@@ -101,8 +95,6 @@ export const payOrder = (orderId, paymentResult) => async (
     dispatch({
       type: ORDER_PAY_REQUEST,
     });
-
-    // because we need the token from the user to PUT the request we have to get in from the state
     const {
       userLogin: { userInfo },
     } = getState();
@@ -113,8 +105,6 @@ export const payOrder = (orderId, paymentResult) => async (
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-
-    // send the order to the backend
     const { data } = await axios.put(
       `/api/orders/${orderId}/pay`,
       paymentResult,
@@ -136,14 +126,11 @@ export const payOrder = (orderId, paymentResult) => async (
   }
 };
 
-// dont need to pass anything because it knows who we are because of our token
 export const listMyOrder = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_LIST_MY_REQUEST,
     });
-
-    // because we need the token from the user to PUT the request we have to get in from the state
     const {
       userLogin: { userInfo },
     } = getState();
@@ -153,8 +140,6 @@ export const listMyOrder = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-
-    // get the user's orders from the backend
     const { data } = await axios.get(`/api/orders/myorders`, config);
 
     dispatch({
@@ -172,15 +157,11 @@ export const listMyOrder = () => async (dispatch, getState) => {
   }
 };
 
-// Admin
-
 export const listOrders = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_LIST_REQUEST,
     });
-
-    // because we need the token from the user to PUT the request we have to get in from the state
     const {
       userLogin: { userInfo },
     } = getState();
@@ -190,11 +171,8 @@ export const listOrders = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-
-    // get the  orders from the backend
     const { data } = await axios.get(`/api/orders`, config);
 
-    console.log(data);
     dispatch({
       type: ORDER_LIST_SUCCESS,
       payload: data,

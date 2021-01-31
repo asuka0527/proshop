@@ -97,21 +97,17 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @route           PUT/api/users/profile (PUT === update)
 // @access          Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  // find the user by Id
   const user = await User.findById(req.user._id);
 
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     if (req.body.password) {
-      // automatically incrypted bec of the middleware in the User Model
       user.password = req.body.password;
     }
 
-    // save updated user info
     const updatedUser = await user.save();
 
-    // respond with json the UPDATE user info
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
@@ -141,7 +137,6 @@ const getUsers = asyncHandler(async (req, res) => {
 // @route           DELETE/api/users/:id
 // @access          Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {
-  // get the user's id from URL params
   const user = await User.findById(req.params.id);
 
   if (user) {
@@ -158,11 +153,9 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @route           GET/api/users/:id
 // @access          Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
-  // get user from db , select it and dont get password
   const user = await User.findById(req.params.id).select("-password");
 
   if (user) {
-    // respond(send) user object to fronted
     res.json(user);
   } else {
     res.status(404);
@@ -175,7 +168,6 @@ const getUserById = asyncHandler(async (req, res) => {
 // @route           PUT/api/users/:id (PUT === update)
 // @access          Private/Admin
 const updateUser = asyncHandler(async (req, res) => {
-  // find the user by Id from the URL
   const user = await User.findById(req.params.id).select("-password");
 
   if (user) {
@@ -183,10 +175,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.email = req.body.email || user.email;
     user.isAdmin = req.body.isAdmin === true ? true : false;
 
-    // save updated user info
     const updatedUser = await user.save();
-
-    // respond with json the UPDATE user info
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,

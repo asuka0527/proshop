@@ -25,16 +25,11 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// [userAuthentication] -4). method that will check wether the plain password entered in the browser matches the encypted one
-
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrpyt.compare(enteredPassword, this.password);
 };
 
-// [ User Registration ] - before we save we want to encrypt password
-
 userSchema.pre("save", async function (next) {
-  // mongoose method that will check if password is modified
   if (!this.isModified("password")) {
     next();
   }

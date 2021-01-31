@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Form, Button, Row, Col } from "react-bootstrap";
-
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
-
 import { listMyOrder } from "../actions/orderActions";
 
 const ProfileScreen = ({ location, history }) => {
@@ -18,20 +15,16 @@ const ProfileScreen = ({ location, history }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
 
-  const dispatch = useDispatch();
-
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
-
   const orderListMy = useSelector((state) => state.orderListMy);
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
 
+  const dispatch = useDispatch();
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");

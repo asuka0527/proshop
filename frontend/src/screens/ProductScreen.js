@@ -22,13 +22,9 @@ import {
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productContants";
 
 const ProductScreen = ({ history, match }) => {
-  const dispatch = useDispatch();
   const productId = match.params.id;
 
-  // adding cart
   const [qty, setQty] = useState(1);
-
-  // review
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
@@ -39,6 +35,7 @@ const ProductScreen = ({ history, match }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const dispatch = useDispatch();
   useEffect(() => {
     if (successReview) {
       alert("Review submitted");

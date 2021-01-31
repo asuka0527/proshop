@@ -15,21 +15,13 @@ import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../actions/cartActions";
 
 const CartScreen = ({ match, location, history }) => {
-  //[get product id from URL]
   const productId = match.params.id;
-
-  // [get product qty from URL] query params  ?qty=3
-  //get query params and get only the number value
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
-  //   console.log(qty);
-
-  const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
-
   const { cartItems } = cart;
-  // console.log(cartItems);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
@@ -41,7 +33,6 @@ const CartScreen = ({ match, location, history }) => {
   };
 
   const checkoutHandler = () => {
-    // login redirect to shipping if not to loginPage
     history.push("/login?redirect=shipping");
   };
 

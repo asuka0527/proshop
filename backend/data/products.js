@@ -85,8 +85,4 @@ const products = [
   },
 ];
 
-// ES MODULES
 export default products;
-// // this is ES modules and we dont have our backend setup for ES modules yet so we need to converrt it to --> COMMON JS modules 👇
-// COMMON JS
-// module.exports = products;

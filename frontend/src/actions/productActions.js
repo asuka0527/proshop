@@ -31,12 +31,9 @@ export const listProducts = (keyword = "", pageNumber = "") => async (
     dispatch({
       type: PRODUCT_LIST_REQUEST,
     });
-
-    // 2 or more query string &
     const { data } = await axios.get(
       `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
     );
-
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
       payload: data,
@@ -120,8 +117,6 @@ export const createProduct = () => async (dispatch, getState) => {
         Authorization: ` Bearer ${userInfo.token}`,
       },
     };
-
-    // when we make a post reqesut we have to send something like a user or order but because we have the sample data created at db we just need the send from the frontend an {} object
     const { data } = await axios.post(`/api/products`, {}, config);
 
     dispatch({
@@ -197,7 +192,6 @@ export const createProductReview = (productId, review) => async (
       },
     };
 
-    // this is what we want send to the backend productId and review object
     await axios.post(`/api/products/${productId}/reviews`, review, config);
 
     dispatch({
@@ -220,7 +214,6 @@ export const listTopProducts = () => async (dispatch) => {
       type: PRODUCT_TOP_REQUEST,
     });
 
-    // 2 or more query string &
     const { data } = await axios.get(`/api/products/top`);
 
     dispatch({

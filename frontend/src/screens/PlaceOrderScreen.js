@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
-
 import { createOrder } from "../actions/orderActions";
 
 const PlaceOrderScreen = ({ history }) => {
-  const dispatch = useDispatch();
-
   const cart = useSelector((state) => state.cart);
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { order, success, error } = orderCreate;
 
-  // Calculate prices [ORDER SUMMARY ]
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
@@ -29,16 +25,12 @@ const PlaceOrderScreen = ({ history }) => {
     Number(cart.taxPrice)
   ).toFixed(2);
 
-  //grab from the state
-  const orderCreate = useSelector((state) => state.orderCreate);
-  const { order, success, error } = orderCreate;
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (success) {
       history.push(`/order/${order._id}`);
     }
-    // eslint-disable-next-line
-  }, [history, success]);
+  }, [history, success, order._id]);
 
   const placeOrderHandler = () => {
     dispatch(

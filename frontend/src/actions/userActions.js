@@ -33,10 +33,6 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
-
-    //We set "Content-Type": "application/json" in our headers when we sent data with our request, like when a new user registers. We set the Authorization: "Bearer token" when we need to access a protected route and the token will give permission to access. In our case, we have routes that are protected that only a registered user can access and routes where only if the user is an administrator of the site can access them. If there is no data being sent with the request, there is no need to set "Content-Type": "application/json" like if an admin deletes a user we only need to set the Bearer token.
-
-    // When we need to pass anything from front-end to back-end, then we need to set content-type property.
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +61,6 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-// add reset to clear state when the user logs out
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({
@@ -104,7 +99,6 @@ export const register = (name, email, password) => async (dispatch) => {
       payload: data,
     });
 
-    // loging user once succeful registration
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
@@ -128,7 +122,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       type: USER_DETAILS_REQUEST,
     });
 
-    // because we need the token from the user to PUT the request we have to get in from the state
     const {
       userLogin: { userInfo },
     } = getState();
@@ -140,7 +133,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    // we are gonna pass the ID from the profile screen
     const { data } = await axios.get(`/api/users/${id}`, config);
 
     dispatch({
@@ -163,8 +155,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch({
       type: USER_UPDATE_PROFILE_REQUEST,
     });
-
-    // because we need the token from the user to PUT the request we have to get in from the state
     const {
       userLogin: { userInfo },
     } = getState();
@@ -176,7 +166,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    // we are gonna pass the user from the profile screen bec thats the date we want to update with
     const { data } = await axios.put("/api/users/profile", user, config);
 
     dispatch({
@@ -194,7 +183,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   }
 };
 
-// admin
 export const listUsers = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -283,7 +271,6 @@ export const updateUser = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_SUCCESS,
     });
 
-    // pass in the updated data here
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,
