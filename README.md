@@ -1,0 +1,2 @@
+# proshop
+This is a full-stack E-commerce web application build with React, Redux, Node, Express & MongoDB. Backend is created with Express framework, MongoDB as database and Mongoose ODM. Authentication through JWT (Json web tokens)build custion authentication middleware for users and admin. Full featured shopping cart with Paypal & credit/debit payments using PayPal API. Build with Admin area to manage customer, products & orders. User area to purchase products, rate, and review system. Frontend is primarily styled with react-bootsrap library. Deployed through heroku.
